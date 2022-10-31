@@ -29,7 +29,6 @@ public class gameprep extends JFrame implements KeyListener{
 		StartButton = new JButton("Start");
 		StartButton.addActionListener(null);
 		
-		
 		frog1 = new frog1();
 		frog1.setX(400); frog1.setY(850);
 		frog1.setWidth(100); frog1.setHeight(100);
