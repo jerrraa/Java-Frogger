@@ -1,5 +1,5 @@
 package fall2022;
-
+// this is player two for part B
 public class frog2 extends sprite {
 
 	private Boolean visible, moving;

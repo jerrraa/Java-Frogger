@@ -20,10 +20,16 @@ public class gameprep extends JFrame implements KeyListener{
 	private Container content;
 	private JLabel frog1Label;
 	private ImageIcon frog1Image;
-	
+	private JLabel Background;
 	private JButton StartButton;
 	
 	public gameprep() {
+		
+		//implement start button
+		StartButton = new JButton("Start");
+		StartButton.addActionListener(null);
+		
+		
 		frog1 = new frog1();
 		frog1.setX(400); frog1.setY(850);
 		frog1.setWidth(100); frog1.setHeight(100);
@@ -32,21 +38,17 @@ public class gameprep extends JFrame implements KeyListener{
 		setSize(gameproperties.SCREEN_HEIGHT, gameproperties.SCREEN_HEIGHT);
 		content = getContentPane();
 		content.setBackground(Color.white);
-		
-		
 		setLayout(null);
+		
 		// graphic element instantiation and add to screen
 		frog1Label = new JLabel();
 		frog1Image = new ImageIcon(getClass().getResource(frog1.getImage()));
-
+		
 		//populate
 		
-		//car section
 		add(frog1Label);
-		car1 = new vehicle();
-		car1.setImage("car.png");
-		car1.setX(400); car1.setY(700); car1.setHeight(74); car1.setWidth(132);
-		car1label.setIcon(car1image);
+		
+		
 		
 		
 		content.addKeyListener(this);
@@ -93,7 +95,7 @@ public class gameprep extends JFrame implements KeyListener{
 		frog1.setY(y);
 		//update graphic
 		frog1Label.setLocation(frog1.getX(), frog1.getY());
-		frog1rect.setLocation(frog1.getX(), frog1.getY());
+		//frog1rect.setLocation(frog1.getX(), frog1.getY());
 	}
 
 	@Override
