@@ -1,39 +1,50 @@
 package fall2022;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class vehicle extends sprite implements ActionListener {
-	private Thread CarThread;
+public class vehicle extends sprite implements Runnable {
 	private Boolean moving;
-	private int x, y, updatemove;
+	private int x, y;
+	private Boolean visible;
 	
-	
-	public vehicle(int x, int y, int updatemove) {
+	public vehicle(int x, int y) {
 		super(50, 50, 74,132, "car.png");
-		this.x = x; this.y = y; this.updatemove = updatemove;
+		this.x = x; this.y = y;
+	}
+	
+	public Boolean getVisible() {
+		return visible;
 	}
 
-	public void StartVehicle( ) {
-		if (!this.moving) {
-			CarThread = new Thread("Car Thread");
-			CarThread.start();
-		}
-	}
-	public void run() {
-		this.moving = true;
-	}
-	public boolean DetectPlayer(frog1 playerfrog) {
-		int frogx = playerfrog.getX();
-		int frogy = playerfrog.getY();
-		
-		return false;
-		
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
 	}
 
+	public Boolean getMoving() {
+		return moving;
+	}
+
+	public void setMoving(Boolean moving) {
+		this.moving = moving;
+	}
+	
+	public void show() {
+		this.visible = true;
+	}
+	public void hide() {
+		this.visible = false;
+	}
+	public void NewThread() {
+		vehicle Vehicle1 = new vehicle(0,0);
+		Thread t = new Thread(Vehicle1, "Vehicle1");
+		t.start();
+		System.out.println("test");
+	}
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+	public void run() {
+		System.out.println("running");
+		this.moving = true;
+		
 		
 	}
+	
 }

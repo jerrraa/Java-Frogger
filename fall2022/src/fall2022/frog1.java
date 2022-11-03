@@ -1,10 +1,14 @@
 package fall2022;
+
+import java.awt.Rectangle;
+
 //this is the object where we control via keyboard
 //and user frogger
 public class frog1 extends sprite{
 	
 private Boolean visible, moving;
-	private int lives;
+
+private int lives;
 	public frog1() {
 		super(0, 0, 100, 100, "greenfrog.png");
 		this.visible = true;
