@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 
 //this is the object where we control via keyboard
 //and user frogger
-public class Frog1 extends sprite{
+public class Frog1 extends Sprite{
 	
 private Boolean visible, moving;
 

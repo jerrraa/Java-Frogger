@@ -13,7 +13,7 @@ import java.awt.Rectangle;
  	8. run in an application
  */
 
-public class sprite {
+public class Sprite {
 	protected int x, y; // upper left, top position
 	protected int height, width; 
 	protected String image;
@@ -48,7 +48,7 @@ public class sprite {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public sprite() {
+	public Sprite() {
 		super();
 		this.x = -1;
 		this.y = -1;
@@ -56,7 +56,7 @@ public class sprite {
 		this.height = -1;
 		this.image = "";
 	}
-	public sprite(int x, int y, int height, int width, String image) {
+	public Sprite(int x, int y, int height, int width, String image) {
 		super();
 		this.x = x;
 		this.y = y;

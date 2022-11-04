@@ -1,6 +1,6 @@
 package fall2022;
 
-public class gameproperties {
+public class Gameproperties {
 
 	//public int SCREEN_WIDTH = 800;
 	//public int SCREEN_HEIGHT = 600;

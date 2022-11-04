@@ -2,13 +2,13 @@ package fall2022;
 
 import javax.swing.JLabel;
 
-public class vehicle extends sprite implements Runnable {
+public class Vehicle extends Sprite implements Runnable {
 	private Boolean moving;
 	private int x, y;
 	private Boolean visible, running;
 	private Thread newt;
 	private JLabel vehicleLabel;
-	public vehicle() {
+	public Vehicle() {
 		super(0,0,135,145,"car.png");
 		this.running = false;
 	}
@@ -56,8 +56,8 @@ public class vehicle extends sprite implements Runnable {
 		while (this.moving) {
 			int x = this.x;
 			int y = this.y;
-			x += gameproperties.CHARACTER_STEP-20;
-			if (x >= gameproperties.SCREEN_WIDTH) {
+			x += Gameproperties.CHARACTER_STEP-20;
+			if (x >= Gameproperties.SCREEN_WIDTH) {
 				x = -1 * this.width;
 			}
 			this.x = x;

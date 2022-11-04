@@ -23,10 +23,10 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	private ImageIcon vehicle1Image;
 	private JButton StartButton;
 	
-	private vehicle vehicle1;
+	private Vehicle vehicle1;
 	private JLabel vehicle1Label;
-	private vehicle VehicleRow[];
-	private vehicle VehicleRow1[];
+	private Vehicle VehicleRow[];
+	private Vehicle VehicleRow1[];
 	
 	private Log LogRow[];
 	private Log LogRow1[];
@@ -36,8 +36,8 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	
 	public Gameprep() {
 		//insert 
-		VehicleRow = new vehicle[2];
-		VehicleRow1 = new vehicle[2];
+		VehicleRow = new Vehicle[2];
+		VehicleRow1 = new Vehicle[2];
 		LogRow = new Log[2];
 		LogRow1 = new Log[2];
 		
@@ -68,14 +68,14 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		
 		//modify position
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			y -= gameproperties.CHARACTER_STEP;
+			y -= Gameproperties.CHARACTER_STEP;
 
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			y += gameproperties.CHARACTER_STEP;
+			y += Gameproperties.CHARACTER_STEP;
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			x -= gameproperties.CHARACTER_STEP;
+			x -= Gameproperties.CHARACTER_STEP;
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			x += gameproperties.CHARACTER_STEP;
+			x += Gameproperties.CHARACTER_STEP;
 		} else {
 			System.out.println("invalid operation");
 		}
@@ -98,14 +98,14 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		frog1.setWidth(100); frog1.setHeight(100);
 		frog1.setImage("greenfrog.png");
 		//declare vehicle to be used in a row
-		vehicle1 = new vehicle();
+		vehicle1 = new Vehicle();
 		vehicle1.setX(0);
 		vehicle1.setY(800);
 		vehicle1.setWidth(90); vehicle1.setHeight(90);
 		vehicle1.setImage("car.png");
 		
 		//set up screen
-		setSize(gameproperties.SCREEN_WIDTH, gameproperties.SCREEN_HEIGHT);
+		setSize(Gameproperties.SCREEN_WIDTH, Gameproperties.SCREEN_HEIGHT);
 		content = getContentPane();
 		content.setBackground(Color.white);
 		setLayout(null);
@@ -127,7 +127,7 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		JLabel Backgroundlab = new JLabel();
 		ImageIcon Backgroundimg = new ImageIcon(getClass().getResource("background.png"));
 		Backgroundlab.setIcon(Backgroundimg);
-		Backgroundlab.setSize(gameproperties.SCREEN_WIDTH, 900);
+		Backgroundlab.setSize(Gameproperties.SCREEN_WIDTH, 900);
 		Backgroundlab.setLocation(0,50);
 		//insert labels 
 		add(frog1Label);
