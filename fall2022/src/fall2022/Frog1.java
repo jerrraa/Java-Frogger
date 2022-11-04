@@ -2,19 +2,20 @@ package fall2022;
 
 import java.awt.Rectangle;
 
+import javax.swing.JLabel;
+
 //this is the object where we control via keyboard
 //and user frogger
-public class frog1 extends sprite{
+public class Frog1 extends sprite{
 	
 private Boolean visible, moving;
 
 private int lives;
-	public frog1() {
+	public Frog1() {
 		super(0, 0, 100, 100, "greenfrog.png");
 		this.visible = true;
 		this.moving = false;
 	}
-
 	public Boolean getVisible() {
 		return visible;
 	}
@@ -30,7 +31,7 @@ private int lives;
 	public void setMoving(Boolean moving) {
 		this.moving = moving;
 	}
-	
+
 	public void show() {
 		this.visible = true;
 	}
@@ -40,8 +41,8 @@ private int lives;
 	
 	public void display() {
 		System.out.println("x, y: "+ this.x + "," + this.y);
-
 	}
+	
 	public void SetLives(int lives) {
 		this.lives = lives;
 	}

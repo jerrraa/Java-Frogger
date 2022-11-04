@@ -12,28 +12,29 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class gameprep extends JFrame implements KeyListener, ActionListener{
+public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	
 	//instances of our data classes (store position, etc here)
-	private frog1 frog1; private Rectangle frog1rect;
+	private Frog1 frog1; private Rectangle frog1rect;
 	//graphic elements
 	private Container content;
 	private JLabel frog1Label;
 	private ImageIcon frog1Image;
+	private ImageIcon vehicle1Image;
 	private JButton StartButton;
 	
-	private vehicle vehicle;
-	
+	private vehicle vehicle1;
+	private JLabel vehicle1Label;
 	private vehicle VehicleRow[];
 	private vehicle VehicleRow1[];
 	
 	private Log LogRow[];
 	private Log LogRow1[];
 	
-	private int death_count = 0;
+	public int death_count = 0;
 	private int score = 0;
 	
-	public gameprep() {
+	public Gameprep() {
 		//insert 
 		VehicleRow = new vehicle[2];
 		VehicleRow1 = new vehicle[2];
@@ -43,14 +44,22 @@ public class gameprep extends JFrame implements KeyListener, ActionListener{
 		
 		DisplayContents();
 	}
+	public void reset() {
+		//if frog intersects with vehicle or log, we reset.
+		death_count++;
+		frog1Label.setLocation(0, 0);
+	}
 	public static void main(String[] args) {
-		gameprep testgame = new gameprep();
+		Gameprep testgame = new Gameprep();
 		testgame.setVisible(true);
 
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		vehicle.NewThread();
+		if (e.getSource() == StartButton) {
+			vehicle1.StartMoving(true);
+			StartButton.setText("Stop");
+		}
 	}
 	
 	@Override
@@ -60,18 +69,13 @@ public class gameprep extends JFrame implements KeyListener, ActionListener{
 		//modify position
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			y -= gameproperties.CHARACTER_STEP;
-			frog1.display();
 
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			y += gameproperties.CHARACTER_STEP;
-			frog1.display();
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			x -= gameproperties.CHARACTER_STEP;
-			frog1.display();
-			
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			x += gameproperties.CHARACTER_STEP;
-			frog1.display();
 		} else {
 			System.out.println("invalid operation");
 		}
@@ -88,11 +92,17 @@ public class gameprep extends JFrame implements KeyListener, ActionListener{
 		StartButton.setSize(100, 100);
 		StartButton.setLocation(853, 700);
 		add(StartButton);
-		
-		frog1 = new frog1();
+		//declare player 1 frog
+		frog1 = new Frog1();
 		frog1.setX(400); frog1.setY(850);
 		frog1.setWidth(100); frog1.setHeight(100);
 		frog1.setImage("greenfrog.png");
+		//declare vehicle to be used in a row
+		vehicle1 = new vehicle();
+		vehicle1.setX(0);
+		vehicle1.setY(800);
+		vehicle1.setWidth(90); vehicle1.setHeight(90);
+		vehicle1.setImage("car.png");
 		
 		//set up screen
 		setSize(gameproperties.SCREEN_WIDTH, gameproperties.SCREEN_HEIGHT);
@@ -100,7 +110,12 @@ public class gameprep extends JFrame implements KeyListener, ActionListener{
 		content.setBackground(Color.white);
 		setLayout(null);
 		
-		// graphic element instantiation and add to screen
+		// insert previous classes into labels and images
+		vehicle1Label = new JLabel();
+		vehicle1Image = new ImageIcon(getClass().getResource("car.png"));
+		vehicle1Label.setIcon(vehicle1Image);
+		vehicle1Label.setSize(vehicle1.getWidth(), vehicle1.getHeight());
+		vehicle1Label.setLocation(vehicle1.getX(),vehicle1.getY());
 		
 		frog1Label = new JLabel();
 		frog1Image = new ImageIcon(getClass().getResource("greenfrog.png"));
@@ -108,13 +123,19 @@ public class gameprep extends JFrame implements KeyListener, ActionListener{
 		frog1Label.setSize(frog1.getWidth(), frog1.getHeight());
 		frog1Label.setLocation(frog1.getX(), frog1.getY());
 		
+		//background of panel
 		JLabel Backgroundlab = new JLabel();
 		ImageIcon Backgroundimg = new ImageIcon(getClass().getResource("background.png"));
 		Backgroundlab.setIcon(Backgroundimg);
-		Backgroundlab.setSize(gameproperties.SCREEN_WIDTH-16, 990);
-		Backgroundlab.setLocation(0, 0);
+		Backgroundlab.setSize(gameproperties.SCREEN_WIDTH, 900);
+		Backgroundlab.setLocation(0,50);
+		//insert labels 
 		add(frog1Label);
+		//insert the car onto panel and use thread
+		add(vehicle1Label);
+		vehicle1.updateVehicleLabel(vehicle1Label);
 		add(Backgroundlab);
+		
 		content.addKeyListener(this);
 		content.setFocusable(true);
 		

@@ -1,14 +1,16 @@
 package fall2022;
 
+import javax.swing.JLabel;
 
 public class vehicle extends sprite implements Runnable {
 	private Boolean moving;
 	private int x, y;
-	private Boolean visible;
-	
-	public vehicle(int x, int y) {
-		super(50, 50, 74,132, "car.png");
-		this.x = x; this.y = y;
+	private Boolean visible, running;
+	private Thread newt;
+	private JLabel vehicleLabel;
+	public vehicle() {
+		super(0,0,135,145,"car.png");
+		this.running = false;
 	}
 	
 	public Boolean getVisible() {
@@ -33,18 +35,41 @@ public class vehicle extends sprite implements Runnable {
 	public void hide() {
 		this.visible = false;
 	}
-	public void NewThread() {
-		vehicle Vehicle1 = new vehicle(0,0);
-		Thread t = new Thread(Vehicle1, "Vehicle1");
-		t.start();
-		System.out.println("test");
+	public void StartMoving(Boolean tf) {
+		this.ThreadMove();
+	}
+	public void updateVehicleLabel(JLabel temp) {
+		this.vehicleLabel = temp;
+	}
+	public void ThreadMove() {
+		if (!this.running) {
+			this.running = true;
+			newt = new Thread(this, "Vehicle1");
+			newt.start();
+		}
 	}
 	@Override
 	public void run() {
-		System.out.println("running");
 		this.moving = true;
+		System.out.println("running");
 		
-		
+		while (this.moving) {
+			int x = this.x;
+			int y = this.y;
+			x += gameproperties.CHARACTER_STEP-20;
+			if (x >= gameproperties.SCREEN_WIDTH) {
+				x = -1 * this.width;
+			}
+			this.x = x;
+			System.out.println("x, y: "+ this.x + "," + this.y);
+			this.vehicleLabel.setLocation(this.x, 800);
+			
+			try {
+				Thread.sleep(300);
+			} catch (Exception e) {
+				
+			}
+		}
 	}
 	
 }

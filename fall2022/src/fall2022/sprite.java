@@ -1,5 +1,7 @@
 package fall2022;
 
+import java.awt.Rectangle;
+
 /*
  	1. Create the new class skeleton
  	2. identify all class attributes (data members)
@@ -15,7 +17,7 @@ public class sprite {
 	protected int x, y; // upper left, top position
 	protected int height, width; 
 	protected String image;
-	
+	protected Rectangle r;
 	public int getX() {
 		return x;
 	}
