@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	
 	//instances of our data classes (store position, etc here)
-	private Frog1 frog1; private Rectangle frog1rect;
+	private Frog1 frog1;
 	//graphic elements
 	private Container content;
 	private JLabel frog1Label;
@@ -25,29 +25,25 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	
 	private Vehicle vehicle1;
 	private JLabel vehicle1Label;
-	private Vehicle VehicleRow[];
-	private Vehicle VehicleRow1[];
-	
-	private Log LogRow[];
-	private Log LogRow1[];
+
 	
 	public int death_count = 0;
-	private int score = 0;
+	public int score = 0;
 	
 	public Gameprep() {
-		//insert 
-		VehicleRow = new Vehicle[2];
-		VehicleRow1 = new Vehicle[2];
-		LogRow = new Log[2];
-		LogRow1 = new Log[2];
 		
-		
+		InsertVehicleRows();
+		InsertLogRows();
 		DisplayContents();
 	}
 	public void reset() {
 		//if frog intersects with vehicle or log, we reset.
 		death_count++;
+		score -= 50;
 		frog1Label.setLocation(0, 0);
+	}
+	public void goalscore() {
+		score += 50;
 	}
 	public static void main(String[] args) {
 		Gameprep testgame = new Gameprep();
@@ -94,23 +90,23 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		add(StartButton);
 		//declare player 1 frog
 		frog1 = new Frog1();
-		frog1.setX(400); frog1.setY(850);
+		frog1.setX(400); frog1.setY(890);
 		frog1.setWidth(100); frog1.setHeight(100);
 		frog1.setImage("greenfrog.png");
 		//declare vehicle to be used in a row
 		vehicle1 = new Vehicle();
 		vehicle1.setX(0);
 		vehicle1.setY(800);
-		vehicle1.setWidth(90); vehicle1.setHeight(90);
+		vehicle1.setWidth(127); vehicle1.setHeight(90);
 		vehicle1.setImage("car.png");
 		
 		//set up screen
-		setSize(Gameproperties.SCREEN_WIDTH, Gameproperties.SCREEN_HEIGHT);
+		setSize(Gameproperties.SCREEN_WIDTH, Gameproperties.SCREEN_HEIGHT+45);
 		content = getContentPane();
 		content.setBackground(Color.white);
 		setLayout(null);
 		
-		// insert previous classes into labels and images
+		//insert previous classes into labels and images
 		vehicle1Label = new JLabel();
 		vehicle1Image = new ImageIcon(getClass().getResource("car.png"));
 		vehicle1Label.setIcon(vehicle1Image);
@@ -127,8 +123,8 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		JLabel Backgroundlab = new JLabel();
 		ImageIcon Backgroundimg = new ImageIcon(getClass().getResource("background.png"));
 		Backgroundlab.setIcon(Backgroundimg);
-		Backgroundlab.setSize(Gameproperties.SCREEN_WIDTH, 900);
-		Backgroundlab.setLocation(0,50);
+		Backgroundlab.setSize(Gameproperties.SCREEN_WIDTH, Gameproperties.SCREEN_HEIGHT);
+		Backgroundlab.setLocation(0,5);
 		//insert labels 
 		add(frog1Label);
 		//insert the car onto panel and use thread
@@ -143,8 +139,29 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		
 		//start button 
 		StartButton.addActionListener(this);
+		StartButton.setFocusable(false);
 		
 	}
+	
+	public void InsertVehicleRows() {
+		Vehicle[] vehiclerow1;
+		//use a for loop to input objects into a array
+		vehiclerow1 = new Vehicle[3];
+		for (int i = 0; i<3; i++) {
+			vehiclerow1[i] = new Vehicle();
+		}
+		
+	}
+	
+	public void InsertLogRows() {
+		Log[] LogsRow;
+		//repeated code instead it's LOGS
+		LogsRow = new Log[3];
+		for (int i = 0; i<3; i++) {
+			LogsRow[i] = new Log();
+		}
+	}
+	
 	@Override
 	public void keyReleased(KeyEvent e) {}
 	@Override

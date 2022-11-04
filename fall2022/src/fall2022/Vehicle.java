@@ -41,6 +41,7 @@ public class Vehicle extends Sprite implements Runnable {
 	public void updateVehicleLabel(JLabel temp) {
 		this.vehicleLabel = temp;
 	}
+
 	public void ThreadMove() {
 		if (!this.running) {
 			this.running = true;
@@ -56,7 +57,7 @@ public class Vehicle extends Sprite implements Runnable {
 		while (this.moving) {
 			int x = this.x;
 			int y = this.y;
-			x += Gameproperties.CHARACTER_STEP-20;
+			x += Gameproperties.CHARACTER_STEP-40;
 			if (x >= Gameproperties.SCREEN_WIDTH) {
 				x = -1 * this.width;
 			}
