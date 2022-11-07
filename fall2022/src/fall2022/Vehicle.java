@@ -8,9 +8,11 @@ public class Vehicle extends Sprite implements Runnable {
 	private Boolean visible, running;
 	private Thread newt;
 	private JLabel vehicleLabel;
+	private Frog1 frog1;
 	public Vehicle() {
 		super(0,0,135,145,"car.png");
 		this.running = false;
+		this.moving = false;
 	}
 	
 	public Boolean getVisible() {
@@ -35,16 +37,15 @@ public class Vehicle extends Sprite implements Runnable {
 	public void hide() {
 		this.visible = false;
 	}
-	public void StartMoving(Boolean tf) {
-		this.ThreadMove();
+	public void StartMoving() {
+		this.moving = false;
+		this.ThreadMove(this.moving);
 	}
-	public void updateVehicleLabel(JLabel temp) {
+	public void SetVehicleLabel(JLabel temp) {
 		this.vehicleLabel = temp;
 	}
-
-	public void ThreadMove() {
-		if (!this.running) {
-			this.running = true;
+	public void ThreadMove(Boolean move) {
+		if (!move) {
 			newt = new Thread(this, "Vehicle1");
 			newt.start();
 		}
@@ -53,17 +54,19 @@ public class Vehicle extends Sprite implements Runnable {
 	public void run() {
 		this.moving = true;
 		System.out.println("running");
-		
+		int offset = 0;
 		while (this.moving) {
-			int x = this.x;
-			int y = this.y;
-			x += Gameproperties.CHARACTER_STEP-40;
-			if (x >= Gameproperties.SCREEN_WIDTH) {
-				x = -1 * this.width;
+			int xqw = this.getX();
+			int yqw = this.getY();
+			xqw += Gameproperties.CHARACTER_STEP-60;
+			if (xqw >= Gameproperties.SCREEN_WIDTH) {
+				xqw = -1 * this.width;
 			}
-			this.x = x;
-			System.out.println("x, y: "+ this.x + "," + this.y);
-			this.vehicleLabel.setLocation(this.x, 800);
+			this.setX(xqw);
+			this.setY(yqw);
+			this.detectCollision();
+			System.out.println(xqw + " " + yqw);
+			this.vehicleLabel.setLocation(xqw, yqw);
 			
 			try {
 				Thread.sleep(300);
@@ -71,6 +74,8 @@ public class Vehicle extends Sprite implements Runnable {
 				
 			}
 		}
+		this.moving = false;
 	}
-	
+	public void detectCollision() {
+	}
 }

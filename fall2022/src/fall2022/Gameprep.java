@@ -27,23 +27,30 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	private JLabel vehicle1Label;
 
 	
-	public int death_count = 0;
+	public int lifes = 3;
 	public int score = 0;
 	
 	public Gameprep() {
-		
 		InsertVehicleRows();
 		InsertLogRows();
 		DisplayContents();
 	}
-	public void reset() {
+	public void resetfrogger() {
 		//if frog intersects with vehicle or log, we reset.
-		death_count++;
+		lifes--;
 		score -= 50;
-		frog1Label.setLocation(0, 0);
+		frog1.SetLives(lifes);
+		frog1Label.setLocation(0, 890);
 	}
-	public void goalscore() {
+	public void AddToScore() {
 		score += 50;
+	}
+	public void resetgame() {
+		if (frog1.GetLives() <= 0) {
+			Gameprep.this.setVisible(false);
+			Gameprep.this.dispose();
+			new Gameprep();
+		}
 	}
 	public static void main(String[] args) {
 		Gameprep testgame = new Gameprep();
@@ -53,11 +60,9 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == StartButton) {
-			vehicle1.StartMoving(true);
-			StartButton.setText("Stop");
+			//empty for now
 		}
 	}
-	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int x = frog1.getX(); int y = frog1.getY();
@@ -69,9 +74,9 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			y += Gameproperties.CHARACTER_STEP;
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			x -= Gameproperties.CHARACTER_STEP;
+			x -= Gameproperties.CHARACTER_STEP-40;
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			x += Gameproperties.CHARACTER_STEP;
+			x += Gameproperties.CHARACTER_STEP-40;
 		} else {
 			System.out.println("invalid operation");
 		}
@@ -87,13 +92,13 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		StartButton = new JButton("Start");
 		StartButton.setSize(100, 100);
 		StartButton.setLocation(853, 700);
-		add(StartButton);
 		//declare player 1 frog
 		frog1 = new Frog1();
 		frog1.setX(400); frog1.setY(890);
 		frog1.setWidth(100); frog1.setHeight(100);
 		frog1.setImage("greenfrog.png");
 		//declare vehicle to be used in a row
+		
 		vehicle1 = new Vehicle();
 		vehicle1.setX(0);
 		vehicle1.setY(800);
@@ -107,6 +112,7 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		setLayout(null);
 		
 		//insert previous classes into labels and images
+		
 		vehicle1Label = new JLabel();
 		vehicle1Image = new ImageIcon(getClass().getResource("car.png"));
 		vehicle1Label.setIcon(vehicle1Image);
@@ -127,9 +133,10 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		Backgroundlab.setLocation(0,5);
 		//insert labels 
 		add(frog1Label);
-		//insert the car onto panel and use thread
+
 		add(vehicle1Label);
-		vehicle1.updateVehicleLabel(vehicle1Label);
+		vehicle1.SetVehicleLabel(vehicle1Label);
+		add(StartButton);
 		add(Backgroundlab);
 		
 		content.addKeyListener(this);
@@ -144,21 +151,75 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	}
 	
 	public void InsertVehicleRows() {
-		Vehicle[] vehiclerow1;
+		Vehicle[] vehiclelane;
+		ImageIcon vehicleicon = new ImageIcon(getClass().getResource("car.png"));
 		//use a for loop to input objects into a array
-		vehiclerow1 = new Vehicle[3];
-		for (int i = 0; i<3; i++) {
-			vehiclerow1[i] = new Vehicle();
+		//creates 4 cars
+		int offset = 300;
+		int Xoffset = 0;
+		int height = 90;
+		int width = 127;
+		vehiclelane = new Vehicle[4];
+		
+		for (int i = 0; i<=2; i++ ) {
+			vehiclelane[i] = new Vehicle();
 		}
 		
+		for (Vehicle vehicle : vehiclelane) {
+			vehicle = new Vehicle();
+			JLabel VEHICLElabel = new JLabel(); 
+			VEHICLElabel.setIcon(vehicleicon);
+			VEHICLElabel.setSize(width, height);
+			
+			vehicle.SetVehicleLabel(VEHICLElabel);
+			vehicle.setX(vehicle.getX() + Xoffset);
+			vehicle.setY(710);
+			VEHICLElabel.setLocation(vehicle.getX(), vehicle.getY());
+			add(VEHICLElabel);
+			Xoffset += offset;
+		}
+		for (Vehicle vehicle2 : vehiclelane) {
+			vehicle2 = new Vehicle();
+			JLabel VEHICLElabel2 = new JLabel(); 
+			VEHICLElabel2.setIcon(vehicleicon);
+			VEHICLElabel2.setSize(width, height);
+			vehicle2.setX(vehicle2.getX() + Xoffset);
+			vehicle2.setY(620);
+			VEHICLElabel2.setLocation(vehicle2.getX()-1200, vehicle2.getY());
+			vehicle2.SetVehicleLabel(VEHICLElabel2);
+			add(VEHICLElabel2);
+			Xoffset += offset;
+		}
+		for (Vehicle vehicle3 : vehiclelane) {
+			vehicle3 = new Vehicle();
+			JLabel VEHICLElabel3 = new JLabel(); 
+			VEHICLElabel3.setIcon(vehicleicon);
+			VEHICLElabel3.setSize(width, height);
+			vehicle3.setX(vehicle3.getX() + Xoffset);
+			vehicle3.setY(800);
+			VEHICLElabel3.setLocation(vehicle3.getX()-2400, vehicle3.getY());
+			vehicle3.SetVehicleLabel(VEHICLElabel3);
+			
+			add(VEHICLElabel3);
+			Xoffset += offset;
+		}
 	}
 	
 	public void InsertLogRows() {
-		Log[] LogsRow;
+		Log[] LogLane;
 		//repeated code instead it's LOGS
-		LogsRow = new Log[3];
+		LogLane = new Log[3];
 		for (int i = 0; i<3; i++) {
-			LogsRow[i] = new Log();
+			LogLane[i] = new Log();
+		}
+		for (Log log1 : LogLane) {
+			log1 = new Log();
+		}
+		for (Log log2 : LogLane) {
+			log2 = new Log();
+		}
+		for (Log log3 : LogLane) {
+			log3 = new Log();
 		}
 	}
 	
