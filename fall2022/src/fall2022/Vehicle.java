@@ -65,7 +65,7 @@ public class Vehicle extends Sprite implements Runnable {
 			this.setX(xqw);
 			this.setY(yqw);
 			this.detectCollision();
-			System.out.println(xqw + " " + yqw);
+			//System.out.println(xqw + " " + yqw);
 			this.vehicleLabel.setLocation(xqw, yqw);
 			
 			try {
