@@ -2,7 +2,6 @@ package fall2022;
 
 public class Log extends Sprite implements Runnable {
 	private Boolean moving;
-	private int x, y;
 	private Boolean visible;
 	public Log () {
 		super(0,0,135,145,"log.png");

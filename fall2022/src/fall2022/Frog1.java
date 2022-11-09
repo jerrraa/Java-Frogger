@@ -1,9 +1,5 @@
 package fall2022;
 
-import java.awt.Rectangle;
-
-import javax.swing.JLabel;
-
 //this is the object where we control via keyboard
 //and user frogger
 public class Frog1 extends Sprite{

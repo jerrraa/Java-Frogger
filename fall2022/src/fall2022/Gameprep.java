@@ -1,19 +1,18 @@
 package fall2022;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class Gameprep extends JFrame implements KeyListener, ActionListener{
-	
+	private static final long serialVersionUID = 1L;
 	//instances of our data classes (store position, etc here)
 	private Frog1 frog1;
 	//graphic elements
@@ -22,13 +21,12 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	private ImageIcon frog1Image;
 	//private ImageIcon vehicle1Image;
 	private JButton StartButton;
-	
 	private JLabel VEHICLElabel, VEHICLElabel2, VEHICLElabel3;
 	private ImageIcon vehicleicon = new ImageIcon(getClass().getResource("car.png"));
 	//private Vehicle vehicle1;
 	//private JLabel vehicle1Label;
 	private Vehicle vehiclelane[];
-	private Vehicle vehiclelane1[];
+	private ReverseVehicle vehiclelane1[];
 	private Vehicle vehiclelane2[];
 	
 	private JLabel LOGlabel, LOGlabel2, LOGlabel3;
@@ -37,33 +35,47 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	private Log LogLane2[];
 	private ImageIcon logicon = new ImageIcon(getClass().getResource("log.png"));
 	
-	
 	private int offset = 300;
 	private int heightveh = 90;
 	private int widthveh = 127;
-	public int lifes = 3;
-	public int score = 0;
-	
+	private JLabel LifeText, ScoreText;
+	int lifes = 3;
+	int score;
+	int xreset = 400; int yreset = 912;
 	public Gameprep() {
 		InsertVehicleRows();
+		InsertVehicleRows1();
+		InsertVehicleRows2();
+		System.out.println(lifes);
 		InsertLogRows();
 		DisplayContents();
 	}
-	public void resetfrogger() {
+	public void Resetfrogger() {
 		//if frog intersects with vehicle or log, we reset.
 		lifes--;
-		score -= 50;
 		frog1.SetLives(lifes);
-		frog1Label.setLocation(0, 890);
+		DataScore.INSTANCE.addScore(score-=50);
+		LifeText.setText("Lifes: " + frog1.GetLives());
+		ScoreText.setText("Score: " + DataScore.INSTANCE.GetScore());
+		frog1.setX(xreset); frog1.setY(yreset);
+		frog1Label.setLocation(frog1.getX(), frog1.getY());
+		
+		Resetgame();
 	}
 	public void AddToScore() {
 		score += 50;
+		ScoreText.setText("Score: " + DataScore.INSTANCE.GetScore());
+		frog1.setX(xreset); frog1.setY(yreset);
+		frog1Label.setLocation(frog1.getX(), frog1.getY());
+		
 	}
-	public void resetgame() {
+	public void Resetgame() {
+		System.out.println(frog1.GetLives());
 		if (frog1.GetLives() <= 0) {
 			Gameprep.this.setVisible(false);
 			Gameprep.this.dispose();
 			new Gameprep();
+			Gameprep.main(null);
 		}
 	}
 	public static void main(String[] args) {
@@ -74,14 +86,21 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == StartButton) {
+			
+			for(ReverseVehicle one : vehiclelane1) {
+				one.GrabFrog1(frog1);
+				one.GrabGame(this);
+				one.StartMoving();
+			}
 			for(Vehicle two : vehiclelane) {
+				two.GrabFrog1(frog1);
+				two.GrabGame(this);
 				two.StartMoving();
 			}
-			for(Vehicle one : vehiclelane1) {
-				//one.StartMoving();
-			}
 			for(Vehicle three : vehiclelane2) {
-				//three.StartMoving();
+				three.GrabFrog1(frog1);
+				three.GrabGame(this);
+				three.StartMoving();
 			}
 		}
 	}
@@ -105,7 +124,7 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		frog1.setX(x);
 		frog1.setY(y);
 		//update graphic
-		System.out.println(y);
+		System.out.println(x+" "+y);
 		frog1Label.setLocation(frog1.getX(), frog1.getY());
 		//frog1rect.setLocation(frog1.getX(), frog1.getY());
 	}
@@ -117,8 +136,8 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		StartButton.setLocation(853, 700);
 		//declare player 1 frog
 		frog1 = new Frog1();
-		frog1.setX(400); frog1.setY(890);
-		frog1.setWidth(100); frog1.setHeight(100);
+		frog1.setX(400); frog1.setY(912);
+		frog1.setWidth(67); frog1.setHeight(60);
 		frog1.setImage("greenfrog.png");
 		frog1.SetLives(lifes);
 
@@ -135,8 +154,20 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		frog1Label.setSize(frog1.getWidth(), frog1.getHeight());
 		frog1Label.setLocation(frog1.getX(), frog1.getY());
 		// grass
+		LifeText = new JLabel("");
+		LifeText.setFont(new Font("Calibri", Font.BOLD, 30));
+		LifeText.setText("Lifes: " + lifes);
+		LifeText.setForeground(Color.WHITE);
+		LifeText.setSize(200, 200);
+		LifeText.setLocation(10, -56);
 		
+		ScoreText = new JLabel("");
+		ScoreText.setFont(new Font("Calibri", Font.BOLD, 30));
+		ScoreText.setText("Score: " + DataScore.INSTANCE.GetScore());
 		
+		ScoreText.setForeground(Color.WHITE);
+		ScoreText.setSize(200, 200);
+		ScoreText.setLocation(10, -27);
 		//background of panel
 		JLabel Backgroundlab = new JLabel();
 		ImageIcon Backgroundimg = new ImageIcon(getClass().getResource("background.png"));
@@ -144,8 +175,10 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		Backgroundlab.setSize(Gameproperties.SCREEN_WIDTH, Gameproperties.SCREEN_HEIGHT);
 		Backgroundlab.setLocation(0,5);
 		//insert labels 
+		add(LifeText);
+		add(ScoreText);
+		add(StartButton);
 		add(frog1Label);
-
 		add(StartButton);
 		add(Backgroundlab);
 		
@@ -155,11 +188,11 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//start button 
-		StartButton.addActionListener(this);
 		StartButton.setFocusable(false);
+		StartButton.addActionListener(this);
 		
 	}
-	
+	//this belongs to middle row
 	public void InsertVehicleRows() {
 		vehiclelane = new Vehicle[4];
 		int Xoffset = 0;
@@ -168,12 +201,54 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 			VEHICLElabel = new JLabel(); 
 			VEHICLElabel.setIcon(vehicleicon);
 			VEHICLElabel.setSize(widthveh, heightveh);
+			
 			vehiclelane[i].SetVehicleLabel(VEHICLElabel);
+			vehiclelane[i].setHeight(heightveh); vehiclelane[i].setWidth(widthveh);
 			vehiclelane[i].setX(vehiclelane[i].getX() + Xoffset);
 			vehiclelane[i].setY(710);
+			vehiclelane[i].SetSpeed(Gameproperties.CHARACTER_STEP-60);
 			VEHICLElabel.setLocation(vehiclelane[i].getX(), vehiclelane[i].getY());
+			
 			add(VEHICLElabel);
-			Xoffset += offset;
+			Xoffset += offset-20;
+		}
+	}
+	//this belongs to top row
+	public void InsertVehicleRows1(){
+		vehiclelane1 = new ReverseVehicle[4];
+		int Xoffset = 0;
+		for (int i = 0; i<4; i++ ) {
+			vehiclelane1[i] = new ReverseVehicle();
+			VEHICLElabel2 = new JLabel(); 
+			VEHICLElabel2.setIcon(vehicleicon);
+			VEHICLElabel2.setSize(widthveh, heightveh);
+			vehiclelane1[i].SetVehicleLabel(VEHICLElabel2);
+			vehiclelane1[i].setHeight(heightveh); vehiclelane1[i].setWidth(widthveh);
+			vehiclelane1[i].setX(vehiclelane1[i].getX() + Xoffset);
+			vehiclelane1[i].setY(620);
+			vehiclelane1[i].SetSpeed(Gameproperties.CHARACTER_STEP-80);
+			VEHICLElabel2.setLocation(vehiclelane1[i].getX(), vehiclelane1[i].getY());
+			add(VEHICLElabel2);
+			Xoffset += offset+20;
+		}
+	}
+	//this belongs to bottom row
+	public void InsertVehicleRows2(){
+		vehiclelane2 = new Vehicle[4];
+		int Xoffset = 0;
+		for (int i = 0; i<4; i++ ) {
+			vehiclelane2[i] = new Vehicle();
+			VEHICLElabel3 = new JLabel(); 
+			VEHICLElabel3.setIcon(vehicleicon);
+			VEHICLElabel3.setSize(widthveh, heightveh);
+			vehiclelane2[i].SetVehicleLabel(VEHICLElabel3);
+			vehiclelane2[i].setHeight(heightveh); vehiclelane1[i].setWidth(widthveh);
+			vehiclelane2[i].setX(vehiclelane2[i].getX() + Xoffset);
+			vehiclelane2[i].setY(800);
+			vehiclelane2[i].SetSpeed(Gameproperties.CHARACTER_STEP-40);
+			VEHICLElabel3.setLocation(vehiclelane2[i].getX(), vehiclelane2[i].getY());
+			add(VEHICLElabel3);
+			Xoffset += offset+50;
 		}
 	}
 	public void InsertLogRows() {

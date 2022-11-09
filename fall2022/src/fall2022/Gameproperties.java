@@ -11,6 +11,6 @@ public class Gameproperties {
 	//HEIGHT IS Y
 	public static final int SCREEN_WIDTH = 983;
 	public static final int SCREEN_HEIGHT = 983;
-	public static final int CHARACTER_STEP = 89;
+	public static final int CHARACTER_STEP = 90;
 		
 }
