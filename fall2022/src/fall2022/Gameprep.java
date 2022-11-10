@@ -23,16 +23,19 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	private JButton StartButton;
 	private JLabel VEHICLElabel, VEHICLElabel2, VEHICLElabel3;
 	private ImageIcon vehicleicon = new ImageIcon(getClass().getResource("car.png"));
+	private ImageIcon vehicleicon2 = new ImageIcon(getClass().getResource("car2.png"));
 	//private Vehicle vehicle1;
 	//private JLabel vehicle1Label;
 	private Vehicle vehiclelane[];
 	private ReverseVehicle vehiclelane1[];
 	private Vehicle vehiclelane2[];
 	
-	private JLabel LOGlabel, LOGlabel2, LOGlabel3;
+	private JLabel LOGlabel, LOGlabel2, LOGlabel3, LOGlabel4, LOGlabel5;
 	private Log LogLane[];
 	private Log LogLane1[];
 	private Log LogLane2[];
+	private Log LogLane3[];
+	private Log LogLane4[];
 	private ImageIcon logicon = new ImageIcon(getClass().getResource("log.png"));
 	
 	private int offset = 300;
@@ -43,11 +46,6 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	int score;
 	int xreset = 400; int yreset = 912;
 	public Gameprep() {
-		InsertVehicleRows();
-		InsertVehicleRows1();
-		InsertVehicleRows2();
-		System.out.println(lifes);
-		InsertLogRows();
 		DisplayContents();
 	}
 	public void Resetfrogger() {
@@ -63,14 +61,13 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		Resetgame();
 	}
 	public void AddToScore() {
-		score += 50;
+		DataScore.INSTANCE.addScore(score+=50);
 		ScoreText.setText("Score: " + DataScore.INSTANCE.GetScore());
 		frog1.setX(xreset); frog1.setY(yreset);
 		frog1Label.setLocation(frog1.getX(), frog1.getY());
 		
 	}
 	public void Resetgame() {
-		System.out.println(frog1.GetLives());
 		if (frog1.GetLives() <= 0) {
 			Gameprep.this.setVisible(false);
 			Gameprep.this.dispose();
@@ -79,11 +76,9 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		}
 	}
 	public static void main(String[] args) {
-		Gameprep testgame = new Gameprep();
-		testgame.setVisible(true);
-
+		Gameprep game = new Gameprep();
+		game.setVisible(true);
 	}
-	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == StartButton) {
 			
@@ -102,6 +97,36 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 				three.GrabGame(this);
 				three.StartMoving();
 			}
+			for(Log log1 : LogLane) {
+				log1.GrabPlayerFrog(frog1);
+				log1.GrabFrogLabel(frog1Label);
+				log1.GrabGame(this);
+				log1.StartMoving();
+			}
+			for(Log log2 : LogLane1) {
+				log2.GrabPlayerFrog(frog1);
+				log2.GrabFrogLabel(frog1Label);
+				log2.GrabGame(this);
+				log2.StartMoving();
+			}
+			for(Log log3 : LogLane2) {
+				log3.GrabPlayerFrog(frog1);
+				log3.GrabFrogLabel(frog1Label);
+				log3.GrabGame(this);
+				log3.StartMoving();
+			}
+			for(Log log4 : LogLane3) {
+				log4.GrabPlayerFrog(frog1);
+				log4.GrabFrogLabel(frog1Label);
+				log4.GrabGame(this);
+				log4.StartMoving();
+			}
+			for(Log log5 : LogLane4) {
+				log5.GrabPlayerFrog(frog1);
+				log5.GrabFrogLabel(frog1Label);
+				log5.GrabGame(this);
+				log5.StartMoving();
+			}
 		}
 	}
 	@Override
@@ -115,16 +140,16 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			y += Gameproperties.CHARACTER_STEP;
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			x -= Gameproperties.CHARACTER_STEP-45;
+			x -= Gameproperties.CHARACTER_STEP-49;
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			x += Gameproperties.CHARACTER_STEP-45;
+			x += Gameproperties.CHARACTER_STEP-49;
 		} else {
 			System.out.println("invalid operation");
 		}
 		frog1.setX(x);
 		frog1.setY(y);
+		System.out.println(x + " " + y);
 		//update graphic
-		System.out.println(x+" "+y);
 		frog1Label.setLocation(frog1.getX(), frog1.getY());
 		//frog1rect.setLocation(frog1.getX(), frog1.getY());
 	}
@@ -133,11 +158,11 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		//implement start button
 		StartButton = new JButton("Start");
 		StartButton.setSize(100, 100);
-		StartButton.setLocation(853, 700);
+		StartButton.setLocation(883, 900);
 		//declare player 1 frog
 		frog1 = new Frog1();
-		frog1.setX(400); frog1.setY(912);
-		frog1.setWidth(67); frog1.setHeight(60);
+		frog1.setX(400); frog1.setY(914);
+		frog1.setWidth(67); frog1.setHeight(55);
 		frog1.setImage("greenfrog.png");
 		frog1.SetLives(lifes);
 
@@ -177,9 +202,16 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		//insert labels 
 		add(LifeText);
 		add(ScoreText);
+		InsertVehicleRows();
+		InsertVehicleRows1();
+		InsertVehicleRows2();
 		add(StartButton);
 		add(frog1Label);
-		add(StartButton);
+		InsertLogRows();
+		InsertLogRows2();
+		InsertLogRows3();
+		InsertLogRows4();
+		InsertLogRows5();
 		add(Backgroundlab);
 		
 		content.addKeyListener(this);
@@ -220,7 +252,7 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		for (int i = 0; i<4; i++ ) {
 			vehiclelane1[i] = new ReverseVehicle();
 			VEHICLElabel2 = new JLabel(); 
-			VEHICLElabel2.setIcon(vehicleicon);
+			VEHICLElabel2.setIcon(vehicleicon2);
 			VEHICLElabel2.setSize(widthveh, heightveh);
 			vehiclelane1[i].SetVehicleLabel(VEHICLElabel2);
 			vehiclelane1[i].setHeight(heightveh); vehiclelane1[i].setWidth(widthveh);
@@ -238,11 +270,13 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		int Xoffset = 0;
 		for (int i = 0; i<4; i++ ) {
 			vehiclelane2[i] = new Vehicle();
+			vehiclelane2[i].GrabFrog1(frog1);
+			vehiclelane2[i].GrabGame(this);
 			VEHICLElabel3 = new JLabel(); 
 			VEHICLElabel3.setIcon(vehicleicon);
 			VEHICLElabel3.setSize(widthveh, heightveh);
 			vehiclelane2[i].SetVehicleLabel(VEHICLElabel3);
-			vehiclelane2[i].setHeight(heightveh); vehiclelane1[i].setWidth(widthveh);
+			vehiclelane2[i].setHeight(heightveh); vehiclelane2[i].setWidth(widthveh);
 			vehiclelane2[i].setX(vehiclelane2[i].getX() + Xoffset);
 			vehiclelane2[i].setY(800);
 			vehiclelane2[i].SetSpeed(Gameproperties.CHARACTER_STEP-40);
@@ -253,12 +287,102 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	}
 	public void InsertLogRows() {
 		LogLane = new Log[4];
+		int Loffset = 0;
 		for (int i = 0; i<4; i++) {
 			LogLane[i] = new Log();
+			LOGlabel = new JLabel();
+			LOGlabel.setIcon(logicon);
+			LOGlabel.setSize(200, 80);
+			LogLane[i].setHeight(90);
+			LogLane[i].setWidth(160);
+			LogLane[i].setX(LogLane[i].getX() + Loffset+70);
+			LogLane[i].setY(454);
+			LogLane[i].SetSpeed(19);
+			LogLane[i].setDirection(true);
+			LOGlabel.setLocation(LogLane[i].getX(), LogLane[i].getY());
+			LogLane[i].SetLogLabel(LOGlabel);
+			add(LOGlabel);
+			Loffset += offset+80;
 		}
-		
 	}
-	
+	public void InsertLogRows2() {
+		LogLane1 = new Log[4];
+		int Loffset = 0;
+		for (int i = 0; i<4; i++) {
+			LogLane1[i] = new Log();
+			LOGlabel2 = new JLabel();
+			LOGlabel2.setIcon(logicon);
+			LOGlabel2.setSize(200, 80);
+			LogLane1[i].setHeight(95);
+			LogLane1[i].setWidth(160);
+			LogLane1[i].setX(LogLane1[i].getX() + Loffset);
+			LogLane1[i].setY(364);
+			LogLane1[i].SetSpeed(15);
+			LOGlabel2.setLocation(LogLane1[i].getX(), LogLane1[i].getY());
+			LogLane1[i].SetLogLabel(LOGlabel2);
+			add(LOGlabel2);
+			Loffset += offset+80;
+		}
+	}
+	public void InsertLogRows3() {
+		LogLane2 = new Log[4];
+		int Loffset = 0;
+		for (int i = 0; i<4; i++) {
+			LogLane2[i] = new Log();
+			LOGlabel3 = new JLabel();
+			LOGlabel3.setIcon(logicon);
+			LOGlabel3.setSize(200, 80);
+			LogLane2[i].setHeight(95);
+			LogLane2[i].setWidth(160);
+			LogLane2[i].setX(LogLane2[i].getX() + Loffset-40);
+			LogLane2[i].setY(274);
+			LogLane2[i].SetSpeed(30);
+			LOGlabel3.setLocation(LogLane2[i].getX(), LogLane2[i].getY());
+			LogLane2[i].SetLogLabel(LOGlabel3);
+			add(LOGlabel3);
+			Loffset += offset+80;
+		}
+	}
+	public void InsertLogRows4() {
+		LogLane3 = new Log[4];
+		int Loffset = 0;
+		for (int i = 0; i<4; i++) {
+			LogLane3[i] = new Log();
+			LOGlabel4 = new JLabel();
+			LOGlabel4.setIcon(logicon);
+			LOGlabel4.setSize(200, 80);
+			LogLane3[i].setHeight(95);
+			LogLane3[i].setWidth(160);
+			LogLane3[i].setDirection(true);
+			LogLane3[i].setX(LogLane3[i].getX() + Loffset+50);
+			LogLane3[i].setY(184);
+			LogLane3[i].SetSpeed(10);
+			
+			LOGlabel4.setLocation(LogLane3[i].getX(), LogLane3[i].getY());
+			LogLane3[i].SetLogLabel(LOGlabel4);
+			add(LOGlabel4);
+			Loffset += offset+80;
+		}
+	}
+	public void InsertLogRows5() {
+		LogLane4 = new Log[4];
+		int Loffset = 0;
+		for (int i = 0; i<4; i++) {
+			LogLane4[i] = new Log();
+			LOGlabel5 = new JLabel();
+			LOGlabel5.setIcon(logicon);
+			LOGlabel5.setSize(200, 80);
+			LogLane4[i].setHeight(95);
+			LogLane4[i].setWidth(160);
+			LogLane4[i].setX(LogLane4[i].getX() + Loffset);
+			LogLane4[i].setY(94);
+			LogLane4[i].SetSpeed(40);
+			LOGlabel5.setLocation(LogLane4[i].getX(), LogLane4[i].getY());
+			LogLane4[i].SetLogLabel(LOGlabel5);
+			add(LOGlabel5);
+			Loffset += offset+80;
+		}
+	}
 	@Override
 	public void keyReleased(KeyEvent e) {}
 	@Override

@@ -54,23 +54,14 @@ public class Sprite {
 		this.image = image;
 	}
 	public Sprite() {
-		super();
-		this.x = -1;
-		this.y = -1;
-		this.width = -1;
-		this.height = -1;
+		this.x = 0;
+		this.y = 0;
+		this.width = 0;
+		this.height = 0;
 		this.image = "";
 		this.rect = new Rectangle();
 	}
-	public Sprite(int x, int y, int height, int width, String image) {
-		super();
-		this.x = x;
-		this.y = y;
-		this.height = height;
-		this.width = width;
-		this.image = image;
-		this.rect = new Rectangle(x,y,width,height);
-	}
+	
 	public void display() {
 		System.out.println("x, y: "+ this.x + "," + this.y);
 		System.out.println("height, width: "+ this.height + "," + this.width);

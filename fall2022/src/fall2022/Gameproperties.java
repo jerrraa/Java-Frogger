@@ -9,7 +9,7 @@ public class Gameproperties {
 	// gameproperties gp = new gameproperties();
 	//WIDTH IS X 
 	//HEIGHT IS Y
-	public static final int SCREEN_WIDTH = 983;
+	public static final int SCREEN_WIDTH = 990;
 	public static final int SCREEN_HEIGHT = 983;
 	public static final int CHARACTER_STEP = 90;
 		

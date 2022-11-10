@@ -10,7 +10,6 @@ public class Vehicle extends Sprite implements Runnable {
 	private JLabel vehicleLabel;
 	private int speed;
 	public Vehicle() {
-		super(0,0,135,145,"car.png");
 		this.moving = false;
 		this.speed = 0;
 	}
@@ -50,7 +49,6 @@ public class Vehicle extends Sprite implements Runnable {
 	@Override
 	public void run() {
 		this.moving = true;
-		System.out.println("running");
 		while (this.moving) {
 			int xqw = this.getX();
 			int yqw = this.getY();
@@ -92,7 +90,6 @@ class ReverseVehicle extends Sprite implements Runnable {
 	private Gameprep gamekill;
 	private int speed;
 	public ReverseVehicle() {
-		super(0,0,135,145,"car.png");
 		this.moving = false;
 		this.speed = 0;
 	}
@@ -131,7 +128,6 @@ class ReverseVehicle extends Sprite implements Runnable {
 	@Override
 	public void run() {
 		this.moving = true;
-		System.out.println("running");
 		while (this.moving) {
 			int xqw = this.getX();
 			int yqw = this.getY();

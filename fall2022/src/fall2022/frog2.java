@@ -5,7 +5,6 @@ public class frog2 extends Sprite {
 	private Boolean visible, moving;
 	
 	public frog2() {
-		super(0, 0, 100, 100, "redfrog.png");
 		this.visible = true;
 		this.moving = false;
 	}
