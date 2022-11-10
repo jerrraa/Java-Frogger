@@ -1,4 +1,4 @@
-package fall2022;
+package fall2022.filedata;
 
 public class Database {
 
