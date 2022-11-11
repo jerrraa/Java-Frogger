@@ -96,13 +96,12 @@ public class Log extends Sprite implements Runnable {
 	}
 	public void detectLog() {
 		if (this.rect.intersects(frog1.rect)) {
-			drag = this.GetSpeed();
 			if (GetDirection() == true) {
-				froglabel.setLocation(frog1.getX()-drag, frog1.getY());
-				frog1.setX(frog1.getX()-drag);
+				froglabel.setLocation(frog1.getX()-this.GetSpeed(), frog1.getY());
+				frog1.setX(frog1.getX()-this.GetSpeed());
 			} else {
-				froglabel.setLocation(frog1.getX()+drag, frog1.getY());
-					frog1.setX(frog1.getX()+drag);
+				froglabel.setLocation(frog1.getX()+this.GetSpeed(), frog1.getY());
+					frog1.setX(frog1.getX()+this.GetSpeed());
 			}
 		}
 	}

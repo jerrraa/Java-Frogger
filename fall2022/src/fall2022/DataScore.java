@@ -13,4 +13,7 @@ public enum DataScore {
 	  public void addScore(int score){
 	    this.score += score;
 	  }
+	  public void MinusScore(int score) {
+		  this.score -= score;
+	  }
 }

@@ -2,9 +2,10 @@ package fall2022;
 
 //this is the object where we control via keyboard
 //and user frogger
-public class Frog1 extends Sprite{
+public class Frog1 extends Sprite implements Runnable{
 	
 private Boolean visible, moving;
+private Gameprep game;
 private int lives;
 	public Frog1() {
 		this.visible = true;
@@ -43,6 +44,27 @@ private int lives;
 	public int GetLives() {
 		return lives;
 	}
+	public void CheckforTop() {
+		Thread t = new Thread(this, "Top");
+		t.start();
+	}
+	public void GetGame(Gameprep main) {
+		this.game = main;
+	}
+	@Override
+	public void run() {
+		// TODO Auto-generated method stud
+			if (this.getY() <= 74 && this.getY() >= -10 && this.getX() >= -10 && this.getX() <= 940) {
+				try {
+					Thread.sleep(400);
+					System.out.println("reached top");
+					game.AddToScore();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 }
 	
 

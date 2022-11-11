@@ -6,10 +6,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.Font;
+import java.awt.Rectangle;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import fall2022.filedata.Database;
 
 public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	private static final long serialVersionUID = 1L;
@@ -38,13 +42,17 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	private Log LogLane4[];
 	private ImageIcon logicon = new ImageIcon(getClass().getResource("log.png"));
 	
+	private Database userinformation;
+	
 	private int offset = 300;
 	private int heightveh = 90;
 	private int widthveh = 127;
 	private JLabel LifeText, ScoreText;
-	int lifes = 3;
-	int score;
-	int xreset = 400; int yreset = 912;
+	private int lifes = 3;
+	private int score = 50;
+	private int xreset = 400;
+	private int yreset = 914;
+	
 	public Gameprep() {
 		DisplayContents();
 	}
@@ -52,7 +60,7 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		//if frog intersects with vehicle or log, we reset.
 		lifes--;
 		frog1.SetLives(lifes);
-		DataScore.INSTANCE.addScore(score-=50);
+		DataScore.INSTANCE.MinusScore(score);
 		LifeText.setText("Lifes: " + frog1.GetLives());
 		ScoreText.setText("Score: " + DataScore.INSTANCE.GetScore());
 		frog1.setX(xreset); frog1.setY(yreset);
@@ -61,7 +69,8 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		Resetgame();
 	}
 	public void AddToScore() {
-		DataScore.INSTANCE.addScore(score+=50);
+		// scoring system
+		DataScore.INSTANCE.addScore(score);
 		ScoreText.setText("Score: " + DataScore.INSTANCE.GetScore());
 		frog1.setX(xreset); frog1.setY(yreset);
 		frog1Label.setLocation(frog1.getX(), frog1.getY());
@@ -81,7 +90,7 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == StartButton) {
-			
+			frog1.setMoving(true);
 			for(ReverseVehicle one : vehiclelane1) {
 				one.GrabFrog1(frog1);
 				one.GrabGame(this);
@@ -132,6 +141,8 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int x = frog1.getX(); int y = frog1.getY();
+		if (frog1.getMoving() == true) {
+			
 		
 		//modify position
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -146,14 +157,35 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		} else {
 			System.out.println("invalid operation");
 		}
+		System.out.println(x + " " + y);
+		DetectBorder(x, y);
+		frog1Label.setLocation(frog1.getX(), frog1.getY());
+		//update graphic
+		frog1.CheckforTop();
+		}
+	}
+	public void DetectBorder(int x, int y) {
+		//right side of the screen detection
+		if (x >= 973) {
+			System.out.println("right");
+			x = 933;
+		} 
+		//bottom side of the screen
+		if (y >= 1000) {
+			System.out.println("bottom");
+			y = 914;
+		}
+		//left side of the screen
+		if (x <= -30) {
+			x = -10;
+		}
+		//top side of the screen
+		if (y <= -50) {
+			y = 14;
+		}
 		frog1.setX(x);
 		frog1.setY(y);
-		System.out.println(x + " " + y);
-		//update graphic
-		frog1Label.setLocation(frog1.getX(), frog1.getY());
-		//frog1rect.setLocation(frog1.getX(), frog1.getY());
 	}
-
 	public void DisplayContents() {
 		//implement start button
 		StartButton = new JButton("Start");
@@ -165,7 +197,8 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		frog1.setWidth(67); frog1.setHeight(55);
 		frog1.setImage("greenfrog.png");
 		frog1.SetLives(lifes);
-
+		frog1.GetGame(this);
+		frog1.setMoving(false);
 		//set up screen
 		setSize(Gameproperties.SCREEN_WIDTH, Gameproperties.SCREEN_HEIGHT+45);
 		content = getContentPane();
@@ -194,11 +227,13 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		ScoreText.setSize(200, 200);
 		ScoreText.setLocation(10, -27);
 		//background of panel
+
 		JLabel Backgroundlab = new JLabel();
 		ImageIcon Backgroundimg = new ImageIcon(getClass().getResource("background.png"));
 		Backgroundlab.setIcon(Backgroundimg);
 		Backgroundlab.setSize(Gameproperties.SCREEN_WIDTH, Gameproperties.SCREEN_HEIGHT);
 		Backgroundlab.setLocation(0,5);
+		
 		//insert labels 
 		add(LifeText);
 		add(ScoreText);
