@@ -72,7 +72,7 @@ public class PanelData extends JFrame implements ActionListener {
 	        String[] column = {"ID", "NAME", "SCORE"};
 	        model.setColumnIdentifiers(column);
 	        table.setModel(model);
-	        panel.setBounds(0,0,300,450);    
+	        panel.setBounds(0,0,300,800);    
 	        panel.setBackground(Color.white);  
 		 while ( rs.next() ) 
 		 {
@@ -83,7 +83,7 @@ public class PanelData extends JFrame implements ActionListener {
 		 }
 		 	panel.add(table);
 	        dataframe.add(panel);  
-	        dataframe.setSize(300,450);   
+	        dataframe.setSize(300,800);   
 	        dataframe.setLayout(null);    
 	        dataframe.setLocationRelativeTo(null);  
 	        dataframe.setVisible(true);    
@@ -122,6 +122,7 @@ public class PanelData extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == restart) {
 			game.Restartgame();
+			dataframe.dispose();
 		}
 		if (e.getSource() == quit) {
 			this.game.setVisible(false);
