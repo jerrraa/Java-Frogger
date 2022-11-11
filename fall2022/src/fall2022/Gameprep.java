@@ -15,21 +15,18 @@ import javax.swing.JLabel;
 
 import fall2022.filedata.Database;
 
-public class Gameprep extends JFrame implements KeyListener, ActionListener{
+public class Gameprep extends JFrame implements KeyListener{
 	private static final long serialVersionUID = 1L;
-	//instances of our data classes (store position, etc here)
+	//
 	private Frog1 frog1;
-	//graphic elements
 	private Container content;
 	private JLabel frog1Label;
 	private ImageIcon frog1Image;
-	//private ImageIcon vehicle1Image;
-	private JButton StartButton;
+	private PanelData NewPanel = new PanelData();
+	
 	private JLabel VEHICLElabel, VEHICLElabel2, VEHICLElabel3;
 	private ImageIcon vehicleicon = new ImageIcon(getClass().getResource("textures/car.png"));
 	private ImageIcon vehicleicon2 = new ImageIcon(getClass().getResource("textures/car2.png"));
-	//private Vehicle vehicle1;
-	//private JLabel vehicle1Label;
 	private Vehicle vehiclelane[];
 	private ReverseVehicle vehiclelane1[];
 	private Vehicle vehiclelane2[];
@@ -42,14 +39,15 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	private Log LogLane4[];
 	private ImageIcon logicon = new ImageIcon(getClass().getResource("textures/log.png"));
 	
-	private Database userinformation;
 	
 	private int offset = 300;
 	private int heightveh = 90;
 	private int widthveh = 127;
+	//life and score
 	private JLabel LifeText, ScoreText;
 	private int lifes = 3;
 	private int score = 50;
+	
 	private int xreset = 400;
 	private int yreset = 914;
 	
@@ -57,93 +55,46 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		DisplayContents();
 	}
 	public void Resetfrogger() {
-		//if frog intersects with vehicle or log, we reset.
+		// add a life counter and update position
 		lifes--;
 		frog1.SetLives(lifes);
 		DataScore.INSTANCE.MinusScore(score);
+		NewPanel.SetNewScore(DataScore.INSTANCE.GetScore());
 		LifeText.setText("Lifes: " + frog1.GetLives());
 		ScoreText.setText("Score: " + DataScore.INSTANCE.GetScore());
 		frog1.setX(xreset); frog1.setY(yreset);
 		frog1Label.setLocation(frog1.getX(), frog1.getY());
-		
-		Resetgame();
+		//if it reaches 0 we kill the frog
+		if (frog1.GetLives() <= 0) {
+			DataScore.INSTANCE.SetScore(0);
+			Restartgame();
+		}
 	}
 	public void AddToScore() {
 		// scoring system
+		// for our scoring system we use a singleton instance
 		DataScore.INSTANCE.addScore(score);
 		ScoreText.setText("Score: " + DataScore.INSTANCE.GetScore());
-		frog1.setX(xreset); frog1.setY(yreset);
-		frog1Label.setLocation(frog1.getX(), frog1.getY());
+		NewPanel.GeneratePanel();
+		NewPanel.ResetFunction(this);
+		NewPanel.SetNewScore(DataScore.INSTANCE.GetScore());
 		
 	}
-	public void Resetgame() {
-		if (frog1.GetLives() <= 0) {
-			Gameprep.this.setVisible(false);
-			Gameprep.this.dispose();
-			new Gameprep();
-			Gameprep.main(null);
-		}
+	public void Restartgame() {
+		//resets game
+		Gameprep.this.setVisible(false);
+		Gameprep.this.dispose();
+		new Gameprep();
+		Gameprep.main(null);
 	}
 	public static void main(String[] args) {
 		Gameprep game = new Gameprep();
 		game.setVisible(true);
 	}
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == StartButton) {
-			frog1.setMoving(true);
-			for(ReverseVehicle one : vehiclelane1) {
-				one.GrabFrog1(frog1);
-				one.GrabGame(this);
-				one.StartMoving();
-			}
-			for(Vehicle two : vehiclelane) {
-				two.GrabFrog1(frog1);
-				two.GrabGame(this);
-				two.StartMoving();
-			}
-			for(Vehicle three : vehiclelane2) {
-				three.GrabFrog1(frog1);
-				three.GrabGame(this);
-				three.StartMoving();
-			}
-			for(Log log1 : LogLane) {
-				log1.GrabPlayerFrog(frog1);
-				log1.GrabFrogLabel(frog1Label);
-				log1.GrabGame(this);
-				log1.StartMoving();
-			}
-			for(Log log2 : LogLane1) {
-				log2.GrabPlayerFrog(frog1);
-				log2.GrabFrogLabel(frog1Label);
-				log2.GrabGame(this);
-				log2.StartMoving();
-			}
-			for(Log log3 : LogLane2) {
-				log3.GrabPlayerFrog(frog1);
-				log3.GrabFrogLabel(frog1Label);
-				log3.GrabGame(this);
-				log3.StartMoving();
-			}
-			for(Log log4 : LogLane3) {
-				log4.GrabPlayerFrog(frog1);
-				log4.GrabFrogLabel(frog1Label);
-				log4.GrabGame(this);
-				log4.StartMoving();
-			}
-			for(Log log5 : LogLane4) {
-				log5.GrabPlayerFrog(frog1);
-				log5.GrabFrogLabel(frog1Label);
-				log5.GrabGame(this);
-				log5.StartMoving();
-			}
-		}
-	}
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int x = frog1.getX(); int y = frog1.getY();
 		if (frog1.getMoving() == true) {
-			
-		
 		//modify position
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			y -= Gameproperties.CHARACTER_STEP;
@@ -157,10 +108,10 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		} else {
 			System.out.println("invalid operation");
 		}
-		System.out.println(x + " " + y);
+		//check if it reaches out of bounds
 		DetectBorder(x, y);
 		frog1Label.setLocation(frog1.getX(), frog1.getY());
-		//update graphic
+		//a function in frog1 class to check if it interacts with top grass
 		frog1.CheckforTop();
 		}
 	}
@@ -187,77 +138,116 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		frog1.setY(y);
 	}
 	public void DisplayContents() {
-		//implement start button
-		StartButton = new JButton("Start");
-		StartButton.setSize(100, 100);
-		StartButton.setLocation(883, 900);
 		//declare player 1 frog
 		frog1 = new Frog1();
-		frog1.setX(400); frog1.setY(914);
+		frog1.setX(460); frog1.setY(914);
 		frog1.setWidth(67); frog1.setHeight(55);
 		frog1.setImage("greenfrog.png");
 		frog1.SetLives(lifes);
 		frog1.GetGame(this);
-		frog1.setMoving(false);
+		frog1.setMoving(true);
 		//set up screen
 		setSize(Gameproperties.SCREEN_WIDTH, Gameproperties.SCREEN_HEIGHT+45);
 		content = getContentPane();
 		content.setBackground(Color.white);
 		setLayout(null);
 		
-		//insert previous classes into labels and images
+		//frog label
 		frog1Label = new JLabel();
 		frog1Image = new ImageIcon(getClass().getResource("textures/greenfrog.png"));
 		frog1Label.setIcon(frog1Image);
 		frog1Label.setSize(frog1.getWidth(), frog1.getHeight());
 		frog1Label.setLocation(frog1.getX(), frog1.getY());
-		// grass
+		// score label
 		LifeText = new JLabel("");
 		LifeText.setFont(new Font("Calibri", Font.BOLD, 30));
 		LifeText.setText("Lifes: " + lifes);
 		LifeText.setForeground(Color.WHITE);
 		LifeText.setSize(200, 200);
 		LifeText.setLocation(10, -56);
-		
+		//score label
 		ScoreText = new JLabel("");
 		ScoreText.setFont(new Font("Calibri", Font.BOLD, 30));
 		ScoreText.setText("Score: " + DataScore.INSTANCE.GetScore());
-		
 		ScoreText.setForeground(Color.WHITE);
 		ScoreText.setSize(200, 200);
 		ScoreText.setLocation(10, -27);
 		//background of panel
-
 		JLabel Backgroundlab = new JLabel();
 		ImageIcon Backgroundimg = new ImageIcon(getClass().getResource("textures/background.png"));
 		Backgroundlab.setIcon(Backgroundimg);
 		Backgroundlab.setSize(Gameproperties.SCREEN_WIDTH, Gameproperties.SCREEN_HEIGHT);
 		Backgroundlab.setLocation(0,5);
-		
-		//insert labels 
+		setLocationRelativeTo(null);  
+		//insert all functions
 		add(LifeText);
 		add(ScoreText);
 		InsertVehicleRows();
 		InsertVehicleRows1();
 		InsertVehicleRows2();
-		add(StartButton);
 		add(frog1Label);
 		InsertLogRows();
 		InsertLogRows2();
 		InsertLogRows3();
 		InsertLogRows4();
 		InsertLogRows5();
+		ThreadForLanes();
 		add(Backgroundlab);
-		
+		//user input
 		content.addKeyListener(this);
 		content.setFocusable(true);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
 		
-		//start button 
-		StartButton.setFocusable(false);
-		StartButton.addActionListener(this);
-		
+	}
+	//initializing
+	public void ThreadForLanes() {
+		for(ReverseVehicle one : vehiclelane1) {
+			one.GrabFrog1(frog1);
+			one.GrabGame(this);
+			one.StartMoving();
+		}
+		for(Vehicle two : vehiclelane) {
+			two.GrabFrog1(frog1);
+			two.GrabGame(this);
+			two.StartMoving();
+		}
+		for(Vehicle three : vehiclelane2) {
+			three.GrabFrog1(frog1);
+			three.GrabGame(this);
+			three.StartMoving();
+		}
+		for(Log log1 : LogLane) {
+			log1.GrabPlayerFrog(frog1);
+			log1.GrabFrogLabel(frog1Label);
+			log1.GrabGame(this);
+			log1.StartMoving();
+		}
+		for(Log log2 : LogLane1) {
+			log2.GrabPlayerFrog(frog1);
+			log2.GrabFrogLabel(frog1Label);
+			log2.GrabGame(this);
+			log2.StartMoving();
+		}
+		for(Log log3 : LogLane2) {
+			log3.GrabPlayerFrog(frog1);
+			log3.GrabFrogLabel(frog1Label);
+			log3.GrabGame(this);
+			log3.StartMoving();
+		}
+		for(Log log4 : LogLane3) {
+			log4.GrabPlayerFrog(frog1);
+			log4.GrabFrogLabel(frog1Label);
+			log4.GrabGame(this);
+			log4.StartMoving();
+		}
+		for(Log log5 : LogLane4) {
+			log5.GrabPlayerFrog(frog1);
+			log5.GrabFrogLabel(frog1Label);
+			log5.GrabGame(this);
+			log5.StartMoving();
+		}
 	}
 	//this belongs to middle row
 	public void InsertVehicleRows() {

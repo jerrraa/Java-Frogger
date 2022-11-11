@@ -56,8 +56,9 @@ private int lives;
 		// TODO Auto-generated method stud
 			if (this.getY() <= 74 && this.getY() >= -10 && this.getX() >= -10 && this.getX() <= 940) {
 				try {
-					Thread.sleep(400);
+					Thread.sleep(50);
 					System.out.println("reached top");
+					this.setMoving(false);
 					game.AddToScore();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
