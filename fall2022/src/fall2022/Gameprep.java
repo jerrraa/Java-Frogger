@@ -26,8 +26,8 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	//private ImageIcon vehicle1Image;
 	private JButton StartButton;
 	private JLabel VEHICLElabel, VEHICLElabel2, VEHICLElabel3;
-	private ImageIcon vehicleicon = new ImageIcon(getClass().getResource("car.png"));
-	private ImageIcon vehicleicon2 = new ImageIcon(getClass().getResource("car2.png"));
+	private ImageIcon vehicleicon = new ImageIcon(getClass().getResource("textures/car.png"));
+	private ImageIcon vehicleicon2 = new ImageIcon(getClass().getResource("textures/car2.png"));
 	//private Vehicle vehicle1;
 	//private JLabel vehicle1Label;
 	private Vehicle vehiclelane[];
@@ -40,7 +40,7 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 	private Log LogLane2[];
 	private Log LogLane3[];
 	private Log LogLane4[];
-	private ImageIcon logicon = new ImageIcon(getClass().getResource("log.png"));
+	private ImageIcon logicon = new ImageIcon(getClass().getResource("textures/log.png"));
 	
 	private Database userinformation;
 	
@@ -207,7 +207,7 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		
 		//insert previous classes into labels and images
 		frog1Label = new JLabel();
-		frog1Image = new ImageIcon(getClass().getResource("greenfrog.png"));
+		frog1Image = new ImageIcon(getClass().getResource("textures/greenfrog.png"));
 		frog1Label.setIcon(frog1Image);
 		frog1Label.setSize(frog1.getWidth(), frog1.getHeight());
 		frog1Label.setLocation(frog1.getX(), frog1.getY());
@@ -229,7 +229,7 @@ public class Gameprep extends JFrame implements KeyListener, ActionListener{
 		//background of panel
 
 		JLabel Backgroundlab = new JLabel();
-		ImageIcon Backgroundimg = new ImageIcon(getClass().getResource("background.png"));
+		ImageIcon Backgroundimg = new ImageIcon(getClass().getResource("textures/background.png"));
 		Backgroundlab.setIcon(Backgroundimg);
 		Backgroundlab.setSize(Gameproperties.SCREEN_WIDTH, Gameproperties.SCREEN_HEIGHT);
 		Backgroundlab.setLocation(0,5);
