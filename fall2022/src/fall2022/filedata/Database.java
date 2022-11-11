@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Database {
-
+//used this function to generate my database
 	/*
 	public void CreateDatabase() {
 		Connection conn = null;
@@ -21,19 +21,10 @@ public class Database {
 				conn.setAutoCommit(false);
 				stmt = conn.createStatement();
 				String sql = "CREATE TABLE IF NOT EXISTS USERSCORE " +
-						 "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-						 " NAME TEXT NOT NULL, " + 
-						 " SCORE INT NOT NULL)";
+						 "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " + " NAME TEXT NOT NULL, " + " SCORE INT NOT NULL)";
 				//Execute the statement
 				stmt.executeUpdate(sql);
 				conn.commit();
-				sql = "INSERT INTO USERSCORE (NAME, SCORE) VALUES " + "('jerome', 104)";
-				//Execute the statement
-				stmt.executeUpdate(sql);
-				conn.commit();
-				sql = "SELECT * FROM userscore";
-				ResultSet rs = stmt.executeQuery(sql);
-				DisplayRecords(rs);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -45,10 +36,10 @@ public class Database {
 		 {
 			 int id = rs.getInt("id");
 			 String name = rs.getString("name");
-			 int age = rs.getInt("score");
+			 int score = rs.getInt("score");
 			 System.out.println("ID = " + id);
 			 System.out.println("name = " + name);
-			 System.out.println("age = " + age);
+			 System.out.println("score = " + score);
 		 }
 		
 	}
@@ -65,11 +56,11 @@ public class Database {
 				conn.setAutoCommit(false);
 				stmt = conn.createStatement();
 				String sql = "INSERT INTO USERSCORE (NAME, SCORE) VALUES "
-				+ "('"+name+"'," +score+")" ;
+				+ "('"+name+"',"+score+")" ;
 				//Execute the statement
 				stmt.executeUpdate(sql);
 				conn.commit();
-				
+				//
 				sql = "SELECT * FROM userscore";
 				ResultSet rs = stmt.executeQuery(sql);
 				DisplayRecords(rs);

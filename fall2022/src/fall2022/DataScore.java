@@ -10,6 +10,9 @@ public enum DataScore {
 	  public int GetScore(){
 	    return score;
 	  }
+	  public void SetScore(int score) {
+		  this.score = score;
+	  }
 	  public void addScore(int score){
 	    this.score += score;
 	  }
