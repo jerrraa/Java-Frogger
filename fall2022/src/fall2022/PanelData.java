@@ -1,9 +1,6 @@
 package fall2022;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -71,7 +68,6 @@ public class PanelData extends JFrame implements ActionListener {
 		  JFrame dataframe = new JFrame("USER DATA");    
 	        JPanel panel =new JPanel();  
 	        JTable table = new JTable();
-	        JPanel tablePanel = new JPanel(new BorderLayout());
 	        DefaultTableModel model = new DefaultTableModel();
 	        String[] column = {"ID", "NAME", "SCORE"};
 	        model.setColumnIdentifiers(column);

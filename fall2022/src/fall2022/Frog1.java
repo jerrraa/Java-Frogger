@@ -55,7 +55,6 @@ private int lives;
 	public void run() {
 		// TODO Auto-generated method stud
 			if (this.getY() <= 74 && this.getY() >= -10 && this.getX() >= -10 && this.getX() <= 940) {
-					System.out.println("reached top");
 					this.setMoving(false);
 					game.AddToScore();
 			}

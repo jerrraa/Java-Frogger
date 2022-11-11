@@ -1,19 +1,13 @@
 package fall2022;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.Font;
-import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
-import fall2022.filedata.Database;
 
 public class Gameprep extends JFrame implements KeyListener{
 	private static final long serialVersionUID = 1L;
@@ -118,12 +112,10 @@ public class Gameprep extends JFrame implements KeyListener{
 	public void DetectBorder(int x, int y) {
 		//right side of the screen detection
 		if (x >= 973) {
-			System.out.println("right");
 			x = 933;
 		} 
 		//bottom side of the screen
 		if (y >= 1000) {
-			System.out.println("bottom");
 			y = 914;
 		}
 		//left side of the screen

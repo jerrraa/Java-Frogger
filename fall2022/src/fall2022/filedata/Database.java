@@ -2,8 +2,6 @@ package fall2022.filedata;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Database {
@@ -31,18 +29,6 @@ public class Database {
 		}
 	}
 	*/
-	private void DisplayRecords(ResultSet rs) throws SQLException {
-		 while ( rs.next() ) 
-		 {
-			 int id = rs.getInt("id");
-			 String name = rs.getString("name");
-			 int score = rs.getInt("score");
-			 System.out.println("ID = " + id);
-			 System.out.println("name = " + name);
-			 System.out.println("score = " + score);
-		 }
-		
-	}
 
 	public void UploadDatabase(String name, int score) {
 		Connection conn = null;
@@ -60,10 +46,6 @@ public class Database {
 				//Execute the statement
 				stmt.executeUpdate(sql);
 				conn.commit();
-				//
-				sql = "SELECT * FROM userscore";
-				ResultSet rs = stmt.executeQuery(sql);
-				DisplayRecords(rs);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

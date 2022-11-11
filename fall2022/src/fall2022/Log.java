@@ -3,16 +3,13 @@ package fall2022;
 import javax.swing.JLabel;
 
 public class Log extends Sprite implements Runnable {
-	private Boolean moving, direction, hold;
+	private Boolean moving, direction;
 	private JLabel Loglabel;
-	private int speed, drag;
+	private int speed;
 	private Thread t;
 	private Frog1 frog1;
 	private JLabel froglabel;
-	private Gameprep game;
-	
 	public Log () {
-		this.drag = 0;
 		this.speed = 0;
 		this.moving = false;
 		this.direction = false;
@@ -35,7 +32,6 @@ public class Log extends Sprite implements Runnable {
 		this.froglabel = temp;
 	}
 	public void GrabGame(Gameprep temp) {
-		this.game = temp;
 	}
 	public void SetSpeed(int s) {
 		this.speed = s;
