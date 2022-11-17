@@ -74,6 +74,7 @@ public class Gameprep extends JFrame implements KeyListener{
 		NewPanel.SetNewScore(DataScore.INSTANCE.GetScore());
 		
 	}
+	//comment test
 	public void Restartgame() {
 		//resets game
 		Gameprep.this.setVisible(false);
