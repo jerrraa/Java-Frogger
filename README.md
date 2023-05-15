@@ -1,5 +1,1 @@
-# javagameproject
-// part A of frogger due by the 13th on 5pm
-// part B will be added.
-
-frogger developed in Java using JLibraries to move all objects on screen.
+only issues present in this repo is frog doesn't die if you interact with the water. everything else works.
